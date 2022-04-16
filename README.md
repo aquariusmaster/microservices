@@ -33,10 +33,11 @@ $ cd microservices
 $ ./mvnw clean package docker:build
 
 # Now we are going to use docker-compose to start the actual image.  To start the docker image, stay in the directory containing  your chapter 8 source code and  Run the following command: 
-$ docker-compose -f docker/docker-compose.yml up
+$ docker-compose -f docker/docker-compose.yml up -d
 
 # Test the application by visiting 
 $ curl http://localhost:8072/organization-service/v1/organization/e6a625cc-718b-48c2-ac76-1dfdff9a531e
+$ curl http://localhost:8072/actuator/gateway/routes
 ```
 
 # The build command
