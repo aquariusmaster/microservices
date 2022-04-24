@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -20,11 +21,12 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
+@EnableWebSecurity
 @ComponentScan(basePackageClasses = {
         KeycloakSpringBootConfigResolver.class,
         KeycloakSecurityComponents.class
 })
-@EnableWebSecurity
+@EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     @Autowired
