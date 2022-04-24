@@ -37,7 +37,16 @@ $ docker-compose -f docker/docker-compose.yml up -d
 
 # Test the application by visiting 
 $ curl http://localhost:8072/organization-service/v1/organization/e6a625cc-718b-48c2-ac76-1dfdff9a531e
+$ curl http://localhost:8072/licensing-service/v1/organization/d898a142-de44-466c-8c88-9ceb2c2429d3/license/f2a9c9d4-d2c0-44fa-97fe-724d77173c62
 $ curl http://localhost:8072/actuator/gateway/routes
+
+# Get token
+$ curl --location --request POST 'http://keycloak:8080/auth/realms/anderb-realm/protocol/openid-connect/token' \
+--header 'Authorization: Basic YW5kZXJiOkJ6VVE2bDUwSm5CS2lhMThSbUxmeUJsandnVGRBazha' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username=user' \
+--data-urlencode 'password=password2'
 ```
 
 # The build command

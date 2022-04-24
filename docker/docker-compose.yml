@@ -9,8 +9,10 @@ services:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB:       "ostock_dev"
     volumes:
-        - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
-        - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
+      - ./create_keycloak_db.sql:/docker-entrypoint-initdb.d/3-create_keycloak_db.sql
     networks:
       backend:
         aliases:
@@ -67,7 +69,7 @@ services:
       configserver:
         condition: service_started
     ports:
-      - "8080:8080"
+      - "8180:8080"
     networks:
       - backend
   organizationservice:
@@ -85,6 +87,25 @@ services:
         condition: service_started
     ports:
       - "8081:8081"
+    networks:
+      - backend
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:legacy
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: database
+      DB_DATABASE: keycloak
+      DB_USER: postgres
+      DB_SCHEMA: public
+      DB_PASSWORD: postgres
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
     networks:
       - backend
 
